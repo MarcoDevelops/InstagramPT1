@@ -17,51 +17,99 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     @IBOutlet weak var commentField: UITextField!
     
     @IBAction func OnSubmitButton(_ sender: Any) {
+        
+        print("On submit button")
+        
         let post = PFObject(className: "Posts")
-         
-         post["caption"] = commentField.text!
-         post["author"] = PFUser.current()!
-         
-         let imageData = imageView.image!.pngData()
-         let file = PFFileObject(data: imageData!)
-         
-         post["image"] = file
-         
-         
-         post.saveInBackground(){(success, error) in
-             if success{
-                 self.dismiss(animated: true, completion: nil)
-                 print("saved!")
-               
-             }else{
-                 print("error!")
-                 
-             }
-             
-             
-             
-         }
+        
+        post["caption"] = commentField.text!
+        post["author"] = PFUser.current()!
+        
+        let imageData = imageView.image!.pngData()
+        let file = PFFileObject(data: imageData!)
+        
+        post["image"] = file
         
         
+        post.saveInBackground(){(success, error) in
+            if success{
+                self.dismiss(animated: true, completion: nil)
+                print("saved!")
+              
+            }else{
+                print("error!")
+                
+            }
+            
+            
+            
+        }
+        
+//
+//
+//
+//
+//        let post = PFObject(className: "Posts")
+//
+//         post["caption"] = commentField.text!
+//         post["author"] = PFUser.current()!
+//
+//         let imageData = imageView.image!.pngData()
+//         let file = PFFileObject(data: imageData!)
+//
+//         post["image"] = file
+//
+//
+//         post.saveInBackground(){(success, error) in
+//             if success{
+//                 self.dismiss(animated: true, completion: nil)
+//                 print("saved!")
+//
+//             }else{
+//                 print("error!")
+//
+//             }
+//
+//
+//
+//         }
+//
+//
         
     }
     
     @IBAction func OnCameraButton(_ sender: Any) {
+        print("Hi i am the ion camera button")
+        
+        
         
         let picker = UIImagePickerController()
-        picker.delegate = self
-        picker.allowsEditing = true
+              picker.delegate = self
+              picker.allowsEditing = true
+              
+              
+              if UIImagePickerController.isSourceTypeAvailable(.camera){
+                  picker.sourceType = .camera
+              } else{
+                  
+                  picker.sourceType = .photoLibrary
+              }
+              present(picker, animated: true, completion: nil)
         
-        if UIImagePickerController.isSourceTypeAvailable(.camera){
-            
-            picker.sourceType = .camera
-        }
-        else{
-            
-             picker.sourceType = .photoLibrary
-        }
-        
-        present(picker, animated: true, completion: nil)
+//        let picker = UIImagePickerController()
+//        picker.delegate = self
+//        picker.allowsEditing = true
+//
+//        if UIImagePickerController.isSourceTypeAvailable(.camera){
+//
+//            picker.sourceType = .camera
+//        }
+//        else{
+//
+//             picker.sourceType = .photoLibrary
+//        }
+//
+//        present(picker, animated: true, completion: nil)
 
         
     }
@@ -71,10 +119,13 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
          // gives you a dictionary with pictures
          
          let image = info[.editedImage] as! UIImage
-         let size = CGSize(width: 300, height: 300)
+         let size = CGSize(width: 298, height: 298)
          let scaledImage = image.af_imageScaled(to: size)
          
-         dismiss(animated: true, completion: nil)
+         
+        
+        imageView.image = scaledImage
+        dismiss(animated: true, completion: nil)
          
      }
     

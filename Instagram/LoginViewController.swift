@@ -8,7 +8,7 @@
 
 import UIKit
 import Parse
-
+import AlamofireImage
 class LoginViewController: UIViewController {
 
     @IBOutlet weak var usernameField: UITextField!
@@ -20,7 +20,7 @@ class LoginViewController: UIViewController {
     
     @IBAction func OnSignIn(_ sender: Any) {
         let username = usernameField.text!
-         let password = passwordField.text!
+        let password = passwordField.text!
          
          PFUser.logInWithUsername(inBackground: username, password: password) { (user, error) in
              if user != nil{
